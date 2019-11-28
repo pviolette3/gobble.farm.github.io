@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Happy Thanksgiving!</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <style type="text/css">
+    .turkey {
+      animation: mymove 5s infinite;
+      animation-direction: alternate;
+      width: 45%;
+      min-width: 100px; 
+      max-width: 400px;
+      height: auto;
+      position: absolute;
+      top: 100%;
+    }
+    .message {
+      font-family: "Arial";
+      text-align: center;
+      font-size: 40px;
+      padding-bottom: 1%;
+      padding-top: 1%;
+      color: #fae6bb;
+      background: rgba(0, 0, 0, 50%);
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-image: url("/forest-bg.jpeg");
+      background-size: cover;
+      z-index: -1;
+    }
+    @keyframes mymove {
+      from { left: 0%; transform: translate3d(0%, -100%, 0);}
+      to { left: 100%; transform: translate3d(-100%, -100%, 0);}
+    }
+  </style>
+</head>
+<body onclick="gobbleForever()">
+  <div class="background">
+    <div class="message">Happy Thanksgiving!</div>
+    <img class="turkey" src="turkey.png"></img> 
+  </div>
+  <audio loop id="GobbleAndrew" preload="auto"><source src="gobble/Andrew.m4a"></audio>
+  <audio loop id="GobbleDad" preload="auto"><source src="gobble/Dad.m4a"></audio>
+  <audio loop id="GobbleLouis" preload="auto"><source src="gobble/Louis.m4a"></audio>
+  <audio loop id="GobbleMike" preload="auto"><source src="gobble/Mike.m4a"></audio>
+  <audio loop id="GobbleMom" preload="auto"><source src="gobble/Mom.m4a"></audio>
+  <audio loop id="GobbleNick" preload="auto"><source src="gobble/Nick.m4a"></audio>
+  <audio loop id="GobblePatrick" preload="auto"><source src="gobble/Patrick.m4a"></audio>
+</body>
+  <script type="text/javascript">
+    var audios = [
+      "GobbleAndrew",
+      "GobbleDad",
+      "GobbleLouis",
+      "GobbleMike",
+      "GobbleMom",
+      "GobbleNick",
+      "GobblePatrick"];
+    function playGobble(audio, duration) {
+      var audioEl = document.getElementById(audio);
+      console.log("Want to play: ", audioEl, "for duration", duration);
+      audioEl.play().then(function() {
+        setTimeout(function() { console.log("Pause"); audioEl.pause(); },
+                   duration);
+      }).catch(function(err) {
+        console.log(err);
+      });
+    }
+    function playRandomGobble() {
+      console.log("Play random gobble.")
+      var index = Math.floor(Math.random() * audios.length);
+      playGobble(audios[index], Math.floor(4000 + 3000 * Math.random()));
+    }
+    var started = false;
+    function gobbleForever() {
+      console.log("Gobble forever", started);
+      if (!started) {
+        playRandomGobble();
+        setInterval(playRandomGobble, 4000);
+        started = true;
+      }
+    }
+  </script>
+</html>
